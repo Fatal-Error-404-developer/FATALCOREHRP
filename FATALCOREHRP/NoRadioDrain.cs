@@ -25,11 +25,10 @@ namespace FATALCOREHRP
         {
             try
             {
-                // Если у игрока нет рации, выходим
+
                 if (ev.Player.CurrentItem?.Type != ItemType.Radio)
                     return;
 
-                // Отключаем естественный разряд (опционально, но на всякий случай)
                 ev.Drain = 0f;
             }
             catch (Exception ex)
