@@ -13,10 +13,8 @@ namespace FATALCOREHRP
 
         public CustomItemSpawner()
         {
-            // Инициализация предметов для каждой роли
             roleItems = new Dictionary<RoleTypeId, List<(bool, uint, ItemType)>>
             {
-                // Class D
                 [RoleTypeId.ClassD] = new List<(bool, uint, ItemType)>
                 {
                     (false, 0, ItemType.Coin),           // TraumaPistol (ID: 3)
@@ -28,7 +26,6 @@ namespace FATALCOREHRP
                     (false, 0, ItemType.None),
                     (false, 0, ItemType.None)
                 },
-                // Scientist
                 [RoleTypeId.Scientist] = new List<(bool, uint, ItemType)>
                 {
                     (false, 0, ItemType.KeycardScientist),
@@ -40,7 +37,7 @@ namespace FATALCOREHRP
                     (false, 0, ItemType.None),
                     (false, 0, ItemType.None)
                 },
-                // Facility Guard
+
                 [RoleTypeId.FacilityGuard] = new List<(bool, uint, ItemType)>
                 {
                     (false, 0, ItemType.GunFSP9),
@@ -71,7 +68,7 @@ namespace FATALCOREHRP
                     (false, 0, ItemType.Ammo9x19),
                     (false, 0, ItemType.None)
                 },
-                // MTF Private
+
                 [RoleTypeId.NtfPrivate] = new List<(bool, uint, ItemType)>
                 {
                     (false, 0, ItemType.GunCrossvec),
@@ -101,7 +98,7 @@ namespace FATALCOREHRP
                     (false, 0, ItemType.None),
                     (false, 0, ItemType.None)
                 },
-                // MTF Sergeant
+
                 [RoleTypeId.NtfSergeant] = new List<(bool, uint, ItemType)>
                 {
                     (false, 0, ItemType.GunE11SR),
@@ -131,7 +128,6 @@ namespace FATALCOREHRP
                     (false, 0, ItemType.None),
                     (false, 0, ItemType.None)
                 },
-                // MTF Captain
                 [RoleTypeId.NtfCaptain] = new List<(bool, uint, ItemType)>
                 {
                     (false, 0, ItemType.GunE11SR),
@@ -164,7 +160,7 @@ namespace FATALCOREHRP
                     (false, 0, ItemType.None),
                     (false, 0, ItemType.None)
                 },
-                // MTF Specialist
+
                 [RoleTypeId.NtfSpecialist] = new List<(bool, uint, ItemType)>
                 {
                     (false, 0, ItemType.GunE11SR),
@@ -193,7 +189,7 @@ namespace FATALCOREHRP
                     (false, 0, ItemType.Ammo556x45),
                     (false, 0, ItemType.None)
                 },
-                // Chaos Rifleman
+
                 [RoleTypeId.ChaosRifleman] = new List<(bool, uint, ItemType)>
                 {
                     (true, 666, ItemType.None),           // TraumaPistol (ID: 3)
@@ -220,7 +216,6 @@ namespace FATALCOREHRP
                     (false, 0, ItemType.None),
                     (false, 0, ItemType.None)
                 },
-                // Chaos Marauder
                 [RoleTypeId.ChaosMarauder] = new List<(bool, uint, ItemType)>
                 {
                     (true, 666, ItemType.None),           // TraumaPistol (ID: 3)
@@ -244,7 +239,7 @@ namespace FATALCOREHRP
                     (false, 0, ItemType.None),
                     (false, 0, ItemType.None)
                 },
-                // Chaos Conscript
+
                 [RoleTypeId.ChaosConscript] = new List<(bool, uint, ItemType)>
                 {
                     (true, 666, ItemType.None),           // TraumaPistol (ID: 3)
@@ -271,7 +266,6 @@ namespace FATALCOREHRP
                     (false, 0, ItemType.None),
                     (false, 0, ItemType.None)
                 },
-                // Chaos Repressor
                 [RoleTypeId.ChaosRepressor] = new List<(bool, uint, ItemType)>
                 {
                     (true, 666, ItemType.None),           // TraumaPistol (ID: 3)
@@ -329,12 +323,12 @@ namespace FATALCOREHRP
                     return;
                 }
 
-                // Очищаем инвентарь игрока после спавна
+
                 ev.Player.ClearInventory();
 
                 foreach (var (isCustom, customItemId, itemType) in items)
                 {
-                    // Пропускаем пустые слоты
+
                     if (!isCustom && itemType == ItemType.None)
                     {
                         if (MainPlugin.Instance.Config.CustomItemSpawnerDebug)
@@ -342,7 +336,7 @@ namespace FATALCOREHRP
                         continue;
                     }
 
-                    // Выдача кастомного предмета
+
                     if (isCustom && customItemId > 0)
                     {
                         var customItem = Exiled.CustomItems.API.Features.CustomItem.Get(customItemId);
@@ -357,7 +351,7 @@ namespace FATALCOREHRP
                             Log.Warn($"[CustomItemSpawner] Кастомный предмет с ID {customItemId} не найден для роли {ev.Player.Role.Type}");
                         }
                     }
-                    // Выдача обычного предмета
+
                     else if (itemType != ItemType.None)
                     {
                         ev.Player.AddItem(itemType);
@@ -366,7 +360,7 @@ namespace FATALCOREHRP
                     }
                 }
 
-                // Проверяем инвентарь после выдачи
+
                 if (MainPlugin.Instance.Config.CustomItemSpawnerDebug)
                 {
                     Log.Debug($"[CustomItemSpawner] Инвентарь игрока {ev.Player.Nickname} ({ev.Player.Role.Type}) после выдачи:");
