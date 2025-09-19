@@ -25,7 +25,6 @@ namespace FATALCOREHRP
         {
             Instance = this;
 
-            // Очистка предметов ПЕРЕД регистрацией
             try
             {
                 CustomItem.UnregisterItems();
@@ -36,7 +35,7 @@ namespace FATALCOREHRP
                 Log.Error($"Ошибка очистки предметов: {ex}");
             }
 
-            // Инициализация модулей
+
             ItemSpawner = new CustomItemSpawner();
             HUDModule = new HUDModule();
             Medical = new Medical();
@@ -45,10 +44,9 @@ namespace FATALCOREHRP
             SCP049Whitelist = new SCP049Whitelist();
             RadioNickname = new RadioNickname();
 
-            // Регистрация кастомных предметов
+
             CustomItem.RegisterItems();
 
-            // Активация модулей
             EnableModules();
 
             Log.Info("<color=#2DDAFD>Плагин FatalCore успешно запущен</color>");
@@ -77,13 +75,12 @@ namespace FATALCOREHRP
 
         public override void OnDisabled()
         {
-            // Деактивация модулей
+
             DisableModules();
 
-            // Отмена регистрации предметов
+
             CustomItem.UnregisterItems();
 
-            // Очистка
             HUDModule = null;
             ItemSpawner = null;
             Medical = null;
