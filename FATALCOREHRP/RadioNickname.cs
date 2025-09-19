@@ -119,14 +119,14 @@ namespace FATALCOREHRP
 
         private void Cleanup(Player player)
         {
-            // Завершаем активную корутину
+
             if (activeCoroutines.TryGetValue(player, out var handle))
             {
                 Timing.KillCoroutines(handle);
                 activeCoroutines.Remove(player);
             }
 
-            // Восстанавливаем оригинальный никнейм
+
             if (originalNicknames.TryGetValue(player, out string originalName))
             {
                 player.CustomName = originalName;
@@ -137,13 +137,13 @@ namespace FATALCOREHRP
 
         private string GenerateRandomNickname()
         {
-            // Генерируем 16 цифр, разбивая на 4 группы по 4 цифры
+
             string[] parts = new string[4];
             for (int i = 0; i < 4; i++)
             {
                 parts[i] = UnityEngine.Random.Range(0, 10000).ToString("D4");
             }
-            return string.Join("-", parts); // Например, 1234-5678-9012-3456
+            return string.Join("-", parts); 
         }
 
         private string RemoveFormatting(string nickname)
