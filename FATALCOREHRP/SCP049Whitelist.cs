@@ -40,11 +40,11 @@ namespace FATALCOREHRP
                 if (!isValidSteamId || !Config.WhitelistedSteamIds.Contains(steamId64))
                 {
                     
-                    // Выбираем случайную роль (кроме SCP-049)
+ 
                     RoleTypeId newRole = GetRandomRole();
                     ev.Player.Role.Set(newRole, RoleSpawnFlags.UseSpawnpoint);
 
-                    // Уведомляем игрока
+
                     ev.Player.ShowHint($"Вы не в белом списке для SCP-049! Назначена случайная роль: {GetRoleName(newRole)}.", 5f);
                 }
                 else
@@ -56,7 +56,7 @@ namespace FATALCOREHRP
 
         private RoleTypeId GetRandomRole()
         {
-            // Список всех ролей, кроме SCP-049
+
             RoleTypeId[] roles =
             {
                 RoleTypeId.ClassD,
