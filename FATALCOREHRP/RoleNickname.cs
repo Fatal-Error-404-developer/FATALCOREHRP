@@ -84,7 +84,7 @@ namespace FATALCOREHRP
 
             if (role == RoleTypeId.ClassD)
             {
-                // D-Class: D-XXXX
+
                 string randomNumber = UnityEngine.Random.Range(0, 10000).ToString("D4");
                 newNickname = $"D-{randomNumber}";
                 description = "D-Class";
@@ -99,7 +99,7 @@ namespace FATALCOREHRP
             }
             else if (role == RoleTypeId.FacilityGuard)
             {
-                // Facility Guard: Имя-Фамилия Имя, случайное описание
+
                 string firstName = firstNames[UnityEngine.Random.Range(0, firstNames.Count)];
                 string lastName = lastNames[UnityEngine.Random.Range(0, lastNames.Count)];
                 newNickname = $"{lastName} {firstName}";
@@ -107,7 +107,7 @@ namespace FATALCOREHRP
             }
             else if (IsMtfRole(role))
             {
-                // MTF: Позывной-Число, описание по роли
+
                 string callsign = callsigns[UnityEngine.Random.Range(0, callsigns.Count)];
                 string number = UnityEngine.Random.Range(1, 100).ToString("D2");
                 newNickname = $"{callsign}-{number}";
@@ -115,7 +115,7 @@ namespace FATALCOREHRP
             }
             else if (IsChaosRole(role))
             {
-                // Chaos: Позывной-Число, описание по роли
+
                 string callsign = callsigns[UnityEngine.Random.Range(0, callsigns.Count)];
                 string number = UnityEngine.Random.Range(1, 100).ToString("D2");
                 newNickname = $"{callsign}-{number}";
@@ -123,35 +123,33 @@ namespace FATALCOREHRP
             }
             else if (role == RoleTypeId.Spectator || role == RoleTypeId.Overwatch)
             {
-                // SCP и Observer: ???
                 newNickname = player.Nickname;
                 description = "???";
             }
             else if (IsScpRole(role) )
             {
-                // SCP и Observer: ???
+
                 newNickname = "???";
                 description = "???";
             }
 
             if (newNickname != null)
             {
-                // Устанавливаем ник через CustomName
+
                 player.CustomName = newNickname;
 
-                // Добавляем информацию о броне и оружии (кроме SCP и Observer)
+
                 if (description != null && role != RoleTypeId.Spectator && !IsScpRole(role))
                 {
                     description = AddInventoryInfo(player, description);
                 }
 
-                // Устанавливаем описание через CustomInfo, если есть
+
                 if (description != null)
                 {
                     player.CustomInfo = description;
                 }
 
-                // Уведомляем игрока
                 string message = description != null
                     ? $"Ваш ник изменён на {newNickname}. Описание: {description}."
                     : $"Ваш ник изменён на {newNickname}.";
@@ -163,24 +161,23 @@ namespace FATALCOREHRP
         {
             if (player.Role.Type == RoleTypeId.Spectator || IsScpRole(player.Role.Type))
             {
-                return; // Не обновляем для SCP и Spectator
+                return; 
             }
 
             string baseDescription = GetBaseDescription(player.Role.Type);
             string currentDescription = baseDescription ?? string.Empty;
 
-            // Проверяем, является ли предмет бронежилетом или оружием
+
             string itemDescription = GetItemDescription(itemType);
             if (itemDescription == null)
             {
-                return; // Предмет не бронежилет и не оружие
+                return; 
             }
 
-            // Получаем текущее состояние инвентаря
+
             string armorDescription = null;
             string weaponDescription = null;
 
-            // Если подбираем предмет, добавляем его в инвентарь для проверки
             if (isPickingUp)
             {
                 foreach (var item in player.Items)
@@ -198,7 +195,7 @@ namespace FATALCOREHRP
                         }
                     }
                 }
-                // Добавляем новый предмет
+
                 if (IsArmor(itemType))
                 {
                     armorDescription = itemDescription;
@@ -208,12 +205,12 @@ namespace FATALCOREHRP
                     weaponDescription = itemDescription;
                 }
             }
-            // Если выкидываем предмет, исключаем его из инвентаря
+
             else
             {
                 foreach (var item in player.Items)
                 {
-                    if (item.Type != itemType) // Игнорируем выброшенный предмет
+                    if (item.Type != itemType) 
                     {
                         string desc = GetItemDescription(item.Type);
                         if (desc != null)
@@ -231,7 +228,7 @@ namespace FATALCOREHRP
                 }
             }
 
-            // Формируем новое описание с запятыми
+
             List<string> descriptionParts = new List<string>();
             if (!string.IsNullOrEmpty(baseDescription))
             {
@@ -248,10 +245,9 @@ namespace FATALCOREHRP
 
             currentDescription = string.Join(", ", descriptionParts);
 
-            // Устанавливаем новое описание
             player.CustomInfo = currentDescription;
 
-            // Уведомляем игрока
+
             string message = $"Ваш ник: {player.CustomName}. Описание: {currentDescription}.";
             player.SendConsoleMessage(message, "Green");
         }
@@ -261,7 +257,7 @@ namespace FATALCOREHRP
             string armorDescription = null;
             string weaponDescription = null;
 
-            // Проверяем инвентарь
+  
             foreach (var item in player.Items)
             {
                 switch (item.Type)
@@ -305,11 +301,11 @@ namespace FATALCOREHRP
                 }
                 if (armorDescription != null && weaponDescription != null)
                 {
-                    break; // Выходим, если нашли оба
+                    break; 
                 }
             }
 
-            // Формируем описание с запятыми
+
             List<string> descriptionParts = new List<string>();
             if (!string.IsNullOrEmpty(baseDescription))
             {
@@ -356,7 +352,7 @@ namespace FATALCOREHRP
                 case ItemType.GunFSP9:
                     return "FSP9";
                 default:
-                    return null; // Не бронежилет и не оружие
+                    return null; 
             }
         }
 
@@ -402,7 +398,7 @@ namespace FATALCOREHRP
             {
                 return GetChaosDescription(role);
             }
-            return null; // Для других ролей без базового описания
+            return null; 
         }
 
         private bool IsMtfRole(RoleTypeId role)
